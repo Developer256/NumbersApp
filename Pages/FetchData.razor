@@ -1,0 +1,33 @@
+﻿@page "/fetchdata"
+
+@using Numbers.Data
+@inject NumbersService NumberService
+@inject NavigationManager NavigationManager
+<h1>Numbers</h1>
+
+<p>This component demonstrates fetching random numbers from a service. Click the Number header to sort the list. Type a value in the filterbox to filter the results. Push the Without prime numbers button to remove all prime numbers from the list. </p>
+
+@if (getnumbers == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <SfGrid ID="ResultsGrid" DataSource="@getnumbers" AllowSorting="true" AllowFiltering="true" Width="80%"></SfGrid>
+}
+
+<br />
+<p>
+<button class="btn btn-primary" @onclick="NavigateToNoPrimesComponent">Without prime numbers</button>
+</p>
+
+@code {
+  private Numbers[] getnumbers;
+
+  protected override async Task OnInitializedAsync()
+  {
+    getnumbers = await NumberService.GetNumbersAsync();
+  }
+
+  private void NavigateToNoPrimesComponent() { NavigationManager.NavigateTo("FetchDataNoPrimes"); }
+}

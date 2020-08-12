@@ -1,0 +1,26 @@
+﻿@page "/fetchdatanoprimes"
+
+@using Numbers.Data
+@inject NumbersService NumbersService
+@inject NavigationManager NavigationManager
+<h1>Numbers</h1>
+
+<p>This component demonstrates fetching random numbers from a service. Click the Number header to sort the list. Type a value in the filterbox to filter the results.</p>
+
+@if (getnumbers == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <SfGrid ID="ResultsGrid" DataSource="@getnumbers" AllowSorting="true" AllowFiltering="true" Width="80%"></SfGrid>
+}
+
+@code {
+  private Numbers[] getnumbers;
+
+  protected override async Task OnInitializedAsync()
+  {
+    getnumbers = await NumbersService.GetNumbersAsyncNoPrimeNumbers();
+  }
+}
